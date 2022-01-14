@@ -8,8 +8,9 @@
 :: the license go to this link:
 :: https://github.com/TartSoft/WDOS3/blob/main/LICENSE.md
 :: edited by johnny20061234
-chcp 65001
 @echo off
+chcp 65001
+cls
 color 02
 title WinDOS3
 type logo.txt
