@@ -1,110 +1,43 @@
-:: A new update for WinDOS3 
-::
-:: WinDOS3 Update 4
-:: Contributed by TartSoft (duongletrieu)
-:: Made In Hanoi, VN
-::
-:: This Program is under GNU General Public License. To see
-:: the license go to this link:
-:: https://github.com/TartSoft/WDOS3/blob/main/LICENSE.md
-::
-@echo off 
-color 02
-title WinDOS3
-echo -----------------------------------------------
-echo  _    _ _      ______ _____ _____ 
-echo ^| ^|  ^| (_)     ^|  _  \  _  /  ___^|
-echo ^| ^|  ^| ^|_ _ __ ^| ^| ^| ^| ^| ^| \ `--. 
-echo ^| ^|/\^| ^| ^| '_ \^| ^| ^| ^| ^| ^| ^|`--. \
-echo \  /\  / ^| ^| ^| ^| ^|/ /\ \_/ /\__/ /
-echo  \/  \/^|_^|_^| ^|_^|___/  \___/\____/ 
+@echo off
+color 01
+title WinDOS 3.4 Updater
+echo Checking version...
+if not exist unzip.exe echo unzip.exe not found! & pause & exit
+powershell -Command "Invoke-WebRequest https://github.com/TartSoft/ver_WinDOS-3.4/archive/refs/heads/main.zip -OutFile main.zip" > nul
+unzip.exe main.zip
+move .\ver_WinDOS-3.4-main\ver.txt .\ver-new.txt
+Del ver_WinDOS-3.4-main
+fc ver-new.txt ver.txt
+if %errorlevel% == 1 goto downupdate
+goto done
+:done
+cls
+echo you are up to date!
+Del ver-new.txt
+pause
+exit
+:downupdate
+cls
+echo you have a new version do you want to update?
+echo:---------------------------
+echo version: && type ver-new.txt && echo.
+echo:---------------------------
+set /p Location=Type where you want the WinDOS folder to placed eg. [Drive:][path]
+echo Downloading update...
+setlocal
+for /f "tokens=4-5 delims=. " %%i in ('ver') do set VERSION=%%i.%%j
+if "%version%" == "10.0" powershell -Command "Invoke-WebRequest https://github.com/congaterori/WinDOS-3.4/archive/refs/heads/main.zip -OutFile main.zip"
+if "%version%" == "6.1" powershell -Command "(New-Object Net.WebClient).DownloadFile('https://github.com/congaterori/WinDOS-3.4/archive/refs/heads/main.zip', 'main.zip')"
 echo.
-echo ------------------------------------------------
-echo Loading, Please Wait...
-timeout 4 > NUL
-cls
-echo Booting up WinDOS3...
-timeout 2 > NUL
-echo Checking files...
-timeout 2 >NUL 
-echo Loading Updater...
-call selfupd.bat
-timeout 2 >NUL
-:login
-cls
-echo  -----------------
-echo       Login:     
-echo  -----------------
+Del ver-new.txt
+echo Unzip files...
+unzip.exe WinDOS-3.4-main.zip
 echo.
-echo -------------------------------
-echo Please type your password here 
-echo -------------------------------
-set/p pass=
-if %pass%==183456 goto mainscr
-if not %pass%==%pass% goto error
-:error
-msg * Your password is not correct. Please try again
-goto login
-:mainscr
-cls
-echo ----------------------------------------------
-echo  _    _ _      ______ _____ _____ 
-echo ^| ^|  ^| (_)     ^|  _  \  _  /  ___^|
-echo ^| ^|  ^| ^|_ _ __ ^| ^| ^| ^| ^| ^| \ `--. 
-echo ^| ^|/\^| ^| ^| '_ \^| ^| ^| ^| ^| ^| ^|`--. \
-echo \  /\  / ^| ^| ^| ^| ^|/ /\ \_/ /\__/ /
-echo  \/  \/^|_^|_^| ^|_^|___/  \___/\____/ 
+echo Move files to location...
+MOVE /Y .\WinDOS-3.4-main %Location%
 echo.
-echo ----------------------------------------------
-echo --------------------------------
-echo The current time is %time%
-echo.
-echo The current date is %date%
-echo --------------------------------
-echo.
-echo  ╔════════════════════════════════════════╗
-echo  ║                Main Menu               ║
-echo  ╠════════════════════════════════════════╣
-echo ----------------------------------------------
-echo  Menu: Please type a number to open a program
-echo ----------------------------------------------
-echo.
-echo --------------------
-echo ACCESORIES
-echo --------------------
-echo 1.Calculator 
-echo 2.Notepad
-echo --------------------
-echo GAMES
-echo --------------------
-echo 3.Deal or no Deal 
-echo 4.Snake Xenzia
-echo 5.Miesweeper
-echo --------------------
-echo [TYPE 7] SHUTDOWN
-echo --------------------
-set /p input= 
-if %input%==1 goto calc 
-if %input%==2 goto notepad
-if %input%==3 goto dealornodeal
-if %input%==4 goto snake
-if %input%==5 goto minesweeper
-if %input%==7 goto exit
-:calc
-cls
-call calc.bat
-:notepad
-cls
-call notepad.bat
-:dealornodeal
-cls
-call dealornodeal.bat
-:snake
-cls
-call snakexz.bat
-:minesweeper
-cls
-call minesweeper.bat
-:exit
-cls
-call startmn.bat
+echo Finish!
+echo The Updater will exit in:
+timeout 10
+endlocal
+exit
