@@ -7,6 +7,7 @@ powershell -Command "Invoke-WebRequest https://github.com/TartSoft/ver_WinDOS-3.
 unzip.exe main.zip
 move .\ver_WinDOS-3.4-main\ver.txt .\ver-new.txt
 rd ver_WinDOS-3.4-main
+Del main.zip
 fc ver-new.txt ver.txt
 if %errorlevel% == 1 goto downupdate
 goto done
