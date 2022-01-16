@@ -16,7 +16,8 @@ cls
 echo you are up to date!
 Del ver-new.txt
 pause
-exit
+color 02
+goto :eof
 :downupdate
 cls
 echo you have a new version do you want to update?
@@ -40,5 +41,6 @@ echo.
 echo Finish!
 echo The Updater will exit in:
 timeout 10
+color 02
 endlocal
-exit
+goto :eof
