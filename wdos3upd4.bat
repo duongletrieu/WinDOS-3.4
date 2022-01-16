@@ -8,6 +8,7 @@
 :: the license go to this link:
 :: https://github.com/TartSoft/WDOS3/blob/main/LICENSE.md
 :: edited by johnny20061234
+:: code edited based on congaterori/Windows_virtual_PC
 @echo off
 chcp 65001
 cls
@@ -24,6 +25,18 @@ timeout 2 >NUL
 echo Loading Updater...
 call selfupd.bat
 timeout 2 >NUL
+if exist password.txt goto login
+:signup
+cls
+echo  -----------------
+echo       Sign up:     
+echo  -----------------
+echo.
+echo -----------------------------------
+echo Please type your new password here 
+echo -----------------------------------
+set /p password=
+echo %password% > password.txt
 :login
 cls
 echo  -----------------
@@ -33,10 +46,16 @@ echo.
 echo -------------------------------
 echo Please type your password here 
 echo -------------------------------
-echo pass:183456
-set/p pass=
-if %pass%==183456 goto mainscr
-goto error
+setlocal DisableDelayedExpansion
+set "psCommand=powershell -Command "$pword = read-host 'Enter password' -AsSecureString ; ^
+    $BSTR=[System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($pword); ^
+      [System.Runtime.InteropServices.Marshal]::PtrToStringAuto($BSTR)""
+        for /f "usebackq delims=" %%p in (`%psCommand%`) do set passwords=%%p
+)
+
+for /f "Delims=" %%a in (password.txt) do set pass=%%a
+if %passwords% == %pass% goto mainscr
+if not %passwords% == %pass% goto error
 :error
 msg * Your password is not correct. Please try again
 goto login
@@ -80,18 +99,24 @@ if %input%==7 goto exit
 :calc
 cls
 call calc.bat
+goto mainscr
 :notepad
 cls
 call notepad.bat
+goto mainscr
 :dealornodeal
 cls
 call dealornodeal.bat
+goto mainscr
 :snake
 cls
 call snakexz.bat
+goto mainscr
 :minesweeper
 cls
 call minesweeper.bat
+goto mainscr
 :exit
 cls
 call startmn.bat
+goto mainscr
