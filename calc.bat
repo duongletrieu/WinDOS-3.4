@@ -30,7 +30,7 @@ IF %ch% EQU + GOTO:SUM
 IF %ch% EQU - GOTO:SUB
 IF %ch% EQU / GOTO:DIV
 IF %ch% EQU * GOTO:MUL
-IF %ch% EQU ~ GOTO:EXI
+IF %ch% EQU ~ color 02 & goto :eof
 IF %ch% GTR . GOTO:Hel
 :SUM
 CLS
@@ -100,8 +100,6 @@ ECHO ----------------------------------------------------
 ECHO %A%*%B%=%C%
 PAUSE
 GOTO:TOP
-:EXI
-EXIT
 :HEL
 CLS
 ECHO --------------------------------------------------
