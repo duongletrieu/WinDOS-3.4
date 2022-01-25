@@ -1,2 +1,2 @@
-# WinDOS-3.4
-Update 4 for WinDOS 3 with call commands and a self-update!
+# WinDOS-3.4 EDIT 
+This is a fixed version of WinDOS 3.4. New Signup/Login System
